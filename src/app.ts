@@ -1,9 +1,11 @@
 import express, { Application } from "express";
 import { connect } from "./infra/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
+import { ProductRoutes } from "./routes/product.routes";
 
 class App {
   public app: Application;
+  private productRoutes = new ProductRoutes();
   constructor() {
     this.app = express();
     this.middlewaresInitialize();
@@ -13,7 +15,7 @@ class App {
   }
 
   initializeRoutes() {
-    // this.app.use("/", )
+    this.app.use("/products", this.productRoutes.router);
   }
 
   interceptionError() {
