@@ -12,12 +12,12 @@ describe("Product test", () => {
       ingredients: ["ingrediente1", "ingrediente2", "ingrediente3"],
       price: 29.9,
     };
-    const response = await request(express)
-      .post("/products")
-      .field("name", product.name)
-      .field("description", product.description)
-      .field("ingredients", product.ingredients)
-      .field("price", product.price);
+    const response = await request(express).post("/products").send({
+      name: product.name,
+      description: product.description,
+      ingredients: product.ingredients,
+      price: product.price,
+    });
 
     if (response.error) {
       console.log("file: Products.test.ts:23 ~ it ~ error:", response.error);
