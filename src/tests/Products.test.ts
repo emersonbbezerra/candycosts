@@ -9,7 +9,7 @@ describe("Product test", () => {
     const product = {
       name: "Bolo de Chocolate",
       description: "Descrição do Bolo de Chocolate",
-      ingredients: [],
+      ingredients: ["ingrediente1", "ingrediente2", "ingrediente3"],
       price: 29.9,
     };
     const response = await request(express)
@@ -20,7 +20,7 @@ describe("Product test", () => {
       .field("price", product.price);
 
     if (response.error) {
-      console.log("file: Products.test.ts:22 ~ it ~ error:", response.error);
+      console.log("file: Products.test.ts:23 ~ it ~ error:", response.error);
     }
 
     expect(response.status).toBe(201);

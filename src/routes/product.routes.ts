@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ProductRepositoryMongoose } from "../repositories/ProductRepositoryMongoose";
 import { ProductController } from "../controllers/ProductController";
 import { ProductUseCase } from "../useCases/ProductUseCase";
+import multer from "multer";
 
 class ProductRoutes {
   public router: Router;
@@ -14,8 +15,10 @@ class ProductRoutes {
     this.initRoutes();
   }
   initRoutes() {
+    const multerBody = multer;
     this.router.post(
       "/",
+      multerBody().fields([]),
       this.productController.create.bind(this.productController)
     );
   }
