@@ -1,7 +1,8 @@
 import request from "supertest";
 import { App } from "../app";
 
-const app = new App().app;
+const app = new App();
+const express = app.app;
 
 describe("Product test", () => {
   it("/POST Product", async () => {
@@ -11,7 +12,7 @@ describe("Product test", () => {
       ingredients: [],
       price: 29.9,
     };
-    const response = await request(app)
+    const response = await request(express)
       .post("/products")
       .field("name", product.name)
       .field("description", product.description)
