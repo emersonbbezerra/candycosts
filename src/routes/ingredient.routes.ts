@@ -18,6 +18,10 @@ class IngredientRoutes {
       "/",
       this.ingredientController.create.bind(this.ingredientController)
     );
+    this.router.patch(
+      "/:id",
+      this.ingredientController.update.bind(this.ingredientController)
+    );
   }
 }
 

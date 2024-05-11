@@ -14,18 +14,32 @@ class IngredientUseCase {
       throw new HttpException(400, "O preço do ingrediente é obrigatório.");
     }
 
-    const verifyName = await this.ingredientRepository.findByName(
-      ingredientData.name
-    );
+    const verifyNameAndManufacturer =
+      await this.ingredientRepository.findByNameAndManufacturer(
+        ingredientData.name,
+        ingredientData.manufacturer
+      );
 
-    if (verifyName) {
+    if (verifyNameAndManufacturer) {
       throw new HttpException(
         400,
-        "Já existe um ingrediente cadastrado com esse nome."
+        "Já existe um ingrediente similar cadastrado."
       );
     }
 
     const result = await this.ingredientRepository.add(ingredientData);
+    return result;
+  }
+
+  async path(id: string, ingredientData: Ingredient) {
+    if (!id) {
+      throw new HttpException(404, "Ingrediente não encontrado.");
+    }
+
+    const result = await this.ingredientRepository.updateIngredient(
+      id,
+      ingredientData
+    );
     return result;
   }
 }
