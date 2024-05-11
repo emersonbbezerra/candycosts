@@ -2,10 +2,12 @@ import express, { Application } from "express";
 import { connect } from "./infra/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { ProductRoutes } from "./routes/product.routes";
+import { IngredientRoutes } from "./routes/ingredient.routes";
 
 class App {
   public app: Application;
   private productRoutes = new ProductRoutes();
+  private ingredientRoutes = new IngredientRoutes();
   constructor() {
     this.app = express();
     this.middlewaresInitialize();
@@ -16,6 +18,7 @@ class App {
 
   private initializeRoutes() {
     this.app.use("/products", this.productRoutes.router);
+    this.app.use("/ingredients", this.ingredientRoutes.router);
   }
 
   private interceptionError() {

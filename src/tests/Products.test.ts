@@ -24,6 +24,8 @@ describe("Product test", () => {
     }
 
     expect(response.status).toBe(201);
-    expect(response.body).toEqual({ message: "Produto criado com sucesso" });
+    expect(response.body).toEqual({
+      message: "Produto cadastrado com sucesso.",
+    });
   });
 });

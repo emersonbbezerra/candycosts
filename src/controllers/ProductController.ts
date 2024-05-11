@@ -10,7 +10,7 @@ class ProductController {
       await this.productUseCase.create(productData);
       return response
         .status(201)
-        .json({ message: "Produto criado com sucesso" });
+        .json({ message: "Produto cadastrado com sucesso." });
     } catch (error) {
       next(error);
     }

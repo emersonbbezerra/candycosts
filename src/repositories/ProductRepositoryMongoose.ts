@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
   description: String,
   ingredients: {
     type: Array,
-    ref: "Ingredients",
+    ref: "ingredients",
   },
   price: Number,
   createdAt: {
@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
 const ProductModel = mongoose.model("products", productSchema);
 
 class ProductRepositoryMongoose implements ProductRepository {
-  async findByName(name: string): Promise<string | undefined> {
+  async findByName(name: string): Promise<Product | undefined> {
     const findName = await ProductModel.findOne({ name }).exec();
     return findName ? findName.toObject() : undefined;
   }

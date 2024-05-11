@@ -13,7 +13,7 @@ class ProductUseCase {
     if (!productData.ingredients) {
       throw new HttpException(
         400,
-        "Os ingredientes do produto são obrigatórios"
+        "Os ingredientes do produto são obrigatórios."
       );
     }
 
@@ -22,7 +22,10 @@ class ProductUseCase {
     );
 
     if (verifyName) {
-      throw new HttpException(400, "Já existe um produto com esse nome");
+      throw new HttpException(
+        400,
+        "Já existe um produto cadastrado com esse nome."
+      );
     }
 
     const result = await this.productRepository.add(productData);
