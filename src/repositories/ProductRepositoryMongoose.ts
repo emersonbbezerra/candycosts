@@ -19,6 +19,10 @@ const productSchema = new mongoose.Schema({
 const ProductModel = mongoose.model("products", productSchema);
 
 class ProductRepositoryMongoose implements ProductRepository {
+  async findByName(name: string): Promise<string | undefined> {
+    const findName = await ProductModel.findOne({ name }).exec();
+    return findName ? findName.toObject() : undefined;
+  }
   async add(product: Product): Promise<Product> {
     const productModel = new ProductModel(product);
     await productModel.save();

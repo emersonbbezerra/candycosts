@@ -7,7 +7,7 @@ const express = app.app;
 describe("Product test", () => {
   it("/POST Product", async () => {
     const product = {
-      name: "Bolo de Chocolate",
+      name: "Bolo de Trigo",
       description: "Descrição do Bolo de Chocolate",
       ingredients: ["ingrediente1", "ingrediente2", "ingrediente3"],
       price: 29.9,
