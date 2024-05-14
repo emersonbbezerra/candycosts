@@ -31,6 +31,16 @@ class IngredientUseCase {
     return result;
   }
 
+  async getAll() {
+    const result = await this.ingredientRepository.getAllIngredients();
+
+    if (!result) {
+      throw new HttpException(404, "Nenhum ingrediente encontrado.");
+    }
+
+    return result;
+  }
+
   async path(id: string, ingredientData: Ingredient) {
     if (!id) {
       throw new HttpException(404, "Ingrediente não encontrado.");
@@ -41,6 +51,10 @@ class IngredientUseCase {
       ingredientData
     );
     return result;
+  }
+
+  async delete(id: string) {
+    await this.ingredientRepository.deleteIngredient(id);
   }
 }
 

@@ -18,9 +18,28 @@ class IngredientRoutes {
       "/",
       this.ingredientController.create.bind(this.ingredientController)
     );
+
+    this.router.get(
+      "/",
+      this.ingredientController.getAllIngredients.bind(
+        this.ingredientController
+      )
+    );
+
+    this.router.patch("", (req, res) => {
+      return res.status(400).json({ error: "ID do insumo não fornecido" });
+    });
     this.router.patch(
       "/:id",
       this.ingredientController.update.bind(this.ingredientController)
+    );
+
+    this.router.delete("", (req, res) => {
+      return res.status(400).json({ error: "ID do insumo não fornecido" });
+    });
+    this.router.delete(
+      "/:id",
+      this.ingredientController.delete.bind(this.ingredientController)
     );
   }
 }

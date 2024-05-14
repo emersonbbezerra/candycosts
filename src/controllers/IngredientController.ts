@@ -16,6 +16,24 @@ class IngredientController {
     }
   }
 
+  async getAllIngredients(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    try {
+      const ingredients = await this.ingredientUseCase.getAll();
+      if (!ingredients) {
+        return response
+          .status(400)
+          .json({ message: "Não existem ingredientes cadastrados." });
+      }
+      return response.status(200).json(ingredients);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async update(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
     const ingredientData = request.body;
@@ -33,6 +51,18 @@ class IngredientController {
       return response
         .status(201)
         .json({ message: "Ingrediente atualizado com sucesso." });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    try {
+      await this.ingredientUseCase.delete(id);
+      return response
+        .status(200)
+        .json({ message: "Ingrediente deletado com sucesso." });
     } catch (error) {
       next(error);
     }

@@ -16,23 +16,15 @@ const ingredientSchema = new mongoose.Schema({
 const IngredientModel = mongoose.model("ingredients", ingredientSchema);
 
 class IngredientRepositoryMongoose implements IngredientRepository {
-  async findByNameAndManufacturer(
-    name: string,
-    manufacturer: string
-  ): Promise<Ingredient | undefined> {
-    const findNameAndManufacturer = await IngredientModel.findOne({
-      name,
-      manufacturer,
-    }).exec();
-    return findNameAndManufacturer
-      ? findNameAndManufacturer.toObject()
-      : undefined;
-  }
-
   async add(ingredient: Ingredient): Promise<Ingredient> {
     const ingredientModel = new IngredientModel(ingredient);
     await ingredientModel.save();
     return ingredient;
+  }
+
+  async getAllIngredients(): Promise<Ingredient[]> {
+    const getAllIngredients = await IngredientModel.find<Ingredient>();
+    return getAllIngredients;
   }
 
   async updateIngredient(
@@ -47,6 +39,28 @@ class IngredientRepositoryMongoose implements IngredientRepository {
       );
       return updateIngredient ? updateIngredient.toObject() : undefined;
     }
+  }
+
+  async deleteIngredient(id: string): Promise<void> {
+    const ingredientId = await IngredientModel.findById(id);
+    if (!ingredientId) {
+      throw new Error("Ingrediente não encontrado");
+    } else {
+      await IngredientModel.findByIdAndDelete(ingredientId);
+    }
+  }
+
+  async findByNameAndManufacturer(
+    name: string,
+    manufacturer: string
+  ): Promise<Ingredient | undefined> {
+    const findNameAndManufacturer = await IngredientModel.findOne({
+      name,
+      manufacturer,
+    });
+    return findNameAndManufacturer
+      ? findNameAndManufacturer.toObject()
+      : undefined;
   }
 }
 
