@@ -25,7 +25,7 @@ class IngredientController {
       const ingredients = await this.ingredientUseCase.getAll();
       if (!ingredients) {
         return response
-          .status(400)
+          .status(404)
           .json({ message: "Não existem ingredientes cadastrados." });
       }
       return response.status(200).json(ingredients);
@@ -45,11 +45,11 @@ class IngredientController {
 
       if (!updateIngredient) {
         return response
-          .status(400)
+          .status(404)
           .json({ message: "Ingrediente não localizado." });
       }
       return response
-        .status(201)
+        .status(200)
         .json({ message: "Ingrediente atualizado com sucesso." });
     } catch (error) {
       next(error);

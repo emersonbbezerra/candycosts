@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Ingredient } from "../entities/Ingredient";
 import { IngredientRepository } from "./IngredientRepository";
+import { HttpException } from "../interfaces/HttpException";
 
 const ingredientSchema = new mongoose.Schema({
   name: String,
@@ -44,7 +45,7 @@ class IngredientRepositoryMongoose implements IngredientRepository {
   async deleteIngredient(id: string): Promise<void> {
     const ingredientId = await IngredientModel.findById(id);
     if (!ingredientId) {
-      throw new Error("Ingrediente não encontrado");
+      throw new HttpException(404, "Ingrediente não encontrado");
     } else {
       await IngredientModel.findByIdAndDelete(ingredientId);
     }

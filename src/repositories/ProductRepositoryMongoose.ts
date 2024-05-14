@@ -19,14 +19,30 @@ const productSchema = new mongoose.Schema({
 const ProductModel = mongoose.model("products", productSchema);
 
 class ProductRepositoryMongoose implements ProductRepository {
-  async findByName(name: string): Promise<Product | undefined> {
-    const findName = await ProductModel.findOne({ name }).exec();
-    return findName ? findName.toObject() : undefined;
-  }
   async add(product: Product): Promise<Product> {
     const productModel = new ProductModel(product);
     await productModel.save();
     return product;
+  }
+
+  async getAllProducts(): Promise<Product[]> {
+    throw new Error("Method not implemented.");
+  }
+
+  async updateProduct(
+    id: string,
+    productData: Product
+  ): Promise<Product | undefined> {
+    throw new Error("Method not implemented.");
+  }
+
+  async deleteProduct(id: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  async findByName(name: string): Promise<Product | undefined> {
+    const findName = await ProductModel.findOne({ name }).exec();
+    return findName ? findName.toObject() : undefined;
   }
 }
 
