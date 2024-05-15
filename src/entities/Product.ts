@@ -1,11 +1,11 @@
-import { Ingredient } from "./Ingredient";
+import { IIngredient } from "../interfaces/ProductInterface";
 
 class Product {
   constructor(
     public name: string,
     public description: string,
-    public ingredients: Ingredient[],
-    public price: number
+    public ingredients: IIngredient[],
+    public cost: number
   ) {}
 }
 

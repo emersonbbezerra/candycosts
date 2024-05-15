@@ -18,6 +18,10 @@ class ProductRoutes {
       "/",
       this.productController.create.bind(this.productController)
     );
+    this.router.get(
+      "/",
+      this.productController.getAllProducts.bind(this.productController)
+    );
   }
 }
 

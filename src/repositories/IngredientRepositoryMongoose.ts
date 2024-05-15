@@ -14,7 +14,7 @@ const ingredientSchema = new mongoose.Schema({
   },
 });
 
-const IngredientModel = mongoose.model("ingredients", ingredientSchema);
+export const IngredientModel = mongoose.model("ingredients", ingredientSchema);
 
 class IngredientRepositoryMongoose implements IngredientRepository {
   async add(ingredient: Ingredient): Promise<Ingredient> {

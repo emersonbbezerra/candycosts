@@ -15,6 +15,24 @@ class ProductController {
       next(error);
     }
   }
+
+  async getAllProducts(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    try {
+      const products = await this.productUseCase.getAll();
+      if (!products) {
+        return response
+          .status(404)
+          .json({ message: "Não existem produtos cadastrados." });
+      }
+      return response.status(200).json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export { ProductController };
