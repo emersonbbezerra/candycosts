@@ -6,7 +6,7 @@ export interface IIngredient {
   amount: number;
 }
 
-export interface IProduct {
+interface IProduct {
   name: string;
   description: string;
   ingredients: IIngredient[];
