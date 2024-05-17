@@ -27,7 +27,7 @@ class IngredientRoutes {
     );
 
     this.router.patch("", (req, res) => {
-      return res.status(400).json({ error: "ID do insumo não fornecido" });
+      return res.status(400).json({ error: "ID do insumo não fornecido." });
     });
     this.router.patch(
       "/:id",
@@ -35,7 +35,7 @@ class IngredientRoutes {
     );
 
     this.router.delete("", (req, res) => {
-      return res.status(400).json({ error: "ID do insumo não fornecido" });
+      return res.status(400).json({ error: "ID do insumo não fornecido." });
     });
     this.router.delete(
       "/:id",

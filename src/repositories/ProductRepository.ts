@@ -1,4 +1,6 @@
+import { ObjectId } from "mongoose";
 import { Product } from "../entities/Product";
+import { IProductDocument } from "../interfaces/ProductInterface";
 
 interface ProductRepository {
   add(product: Product): Promise<Product | undefined>;
@@ -9,7 +11,9 @@ interface ProductRepository {
 
   deleteProduct(id: string): Promise<void>;
 
-  findByName(name: string): Promise<Product | undefined>;
+  findByName(name: string): Promise<IProductDocument | undefined>;
+
+  findById(id: string): Promise<IProductDocument | undefined>;
 }
 
 export { ProductRepository };

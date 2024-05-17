@@ -33,6 +33,25 @@ class ProductController {
       next(error);
     }
   }
+
+  async update(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    const productData = request.body;
+    try {
+      const updateProduct = await this.productUseCase.update(id, productData);
+
+      if (!updateProduct) {
+        return response
+          .status(404)
+          .json({ message: "Produto não localizado." });
+      }
+      return response
+        .status(200)
+        .json({ message: "Produto atualizado com sucesso." });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export { ProductController };

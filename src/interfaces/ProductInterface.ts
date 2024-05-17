@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 export interface IIngredient {
   ingredientId: string;
@@ -6,11 +6,13 @@ export interface IIngredient {
   amount: number;
 }
 
-interface IProduct {
+export interface IProduct {
+  _id?: ObjectId;
   name: string;
   description: string;
   ingredients: IIngredient[];
   cost: number;
+  createdAt: Date;
 }
 
 export type IProductDocument = IProduct & Document;
@@ -30,6 +32,10 @@ const productSchema = new Schema<IProductDocument>({
     },
   ],
   cost: Number,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const ProductModel = mongoose.model("products", productSchema);

@@ -1,7 +1,8 @@
 import { ProductRepository } from "./ProductRepository";
 import { IngredientModel } from "./IngredientRepositoryMongoose";
-import { ProductModel } from "../interfaces/ProductInterface";
+import { IProductDocument, ProductModel } from "../interfaces/ProductInterface";
 import { Product } from "../entities/Product";
+import { Types } from "mongoose";
 
 class ProductRepositoryMongoose implements ProductRepository {
   private async calculateProductCost(
@@ -27,13 +28,9 @@ class ProductRepositoryMongoose implements ProductRepository {
   }
 
   async add(product: Product): Promise<Product | undefined> {
-    try {
-      const cost = await this.calculateProductCost(product.ingredients);
-      const newProduct = await ProductModel.create({ ...product, cost });
-      return newProduct;
-    } catch (error) {
-      throw new Error(`Erro ao criar a receita: ${error}`);
-    }
+    const cost = await this.calculateProductCost(product.ingredients);
+    const newProduct = await ProductModel.create({ ...product, cost });
+    return newProduct;
   }
 
   async getAllProducts(): Promise<Product[]> {
@@ -41,20 +38,50 @@ class ProductRepositoryMongoose implements ProductRepository {
     return getAllProducts;
   }
 
+  // async updateProduct(
+  //   id: string,
+  //   productData: Product
+  // ): Promise<Product | undefined> {
+  //   {
+  //     const productUpdate = await ProductModel.findByIdAndUpdate(
+  //       id,
+  //       productData,
+  //       { new: true }
+  //     );
+  //     return productUpdate ? productUpdate.toObject() : undefined;
+  //   }
+  // }
+
   async updateProduct(
     id: string,
     productData: Product
   ): Promise<Product | undefined> {
-    throw new Error("Method not implemented.");
+    if (!Types.ObjectId.isValid(id)) {
+      throw new Error("ID do produto inválido.");
+    }
+    const productUpdate = await ProductModel.findByIdAndUpdate(
+      id,
+      productData,
+      { new: true }
+    );
+    return productUpdate ? productUpdate.toObject() : undefined;
   }
 
   async deleteProduct(id: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  async findByName(name: string): Promise<Product | undefined> {
+  async findByName(name: string): Promise<IProductDocument | undefined> {
     const findName = await ProductModel.findOne({ name }).exec();
     return findName ? findName.toObject() : undefined;
+  }
+
+  async findById(id: string): Promise<IProductDocument | undefined> {
+    if (!Types.ObjectId.isValid(id)) {
+      return undefined;
+    }
+    const findId = await ProductModel.findById(id);
+    return findId ? findId.toObject() : undefined;
   }
 }
 

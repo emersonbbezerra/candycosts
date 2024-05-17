@@ -38,7 +38,7 @@ class IngredientController {
     const { id } = request.params;
     const ingredientData = request.body;
     try {
-      const updateIngredient = await this.ingredientUseCase.path(
+      const updateIngredient = await this.ingredientUseCase.update(
         id,
         ingredientData
       );

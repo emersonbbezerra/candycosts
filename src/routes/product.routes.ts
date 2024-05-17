@@ -22,6 +22,14 @@ class ProductRoutes {
       "/",
       this.productController.getAllProducts.bind(this.productController)
     );
+
+    this.router.patch("", (req, res) => {
+      return res.status(400).json({ error: "ID do produto não fornecido." });
+    });
+    this.router.patch(
+      "/:id",
+      this.productController.update.bind(this.productController)
+    );
   }
 }
 

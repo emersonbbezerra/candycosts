@@ -55,7 +55,7 @@ class IngredientUseCase {
     return result;
   }
 
-  async path(id: string, ingredientData: Ingredient) {
+  async update(id: string, ingredientData: Ingredient) {
     if (!ingredientData.name) {
       throw new HttpException(400, "O nome do ingrediente é obrigatório.");
     }
