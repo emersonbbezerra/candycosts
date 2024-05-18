@@ -38,20 +38,6 @@ class ProductRepositoryMongoose implements ProductRepository {
     return getAllProducts;
   }
 
-  // async updateProduct(
-  //   id: string,
-  //   productData: Product
-  // ): Promise<Product | undefined> {
-  //   {
-  //     const productUpdate = await ProductModel.findByIdAndUpdate(
-  //       id,
-  //       productData,
-  //       { new: true }
-  //     );
-  //     return productUpdate ? productUpdate.toObject() : undefined;
-  //   }
-  // }
-
   async updateProduct(
     id: string,
     productData: Product
