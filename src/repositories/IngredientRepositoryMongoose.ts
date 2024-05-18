@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { Ingredient } from "../entities/Ingredient";
 import { IngredientRepository } from "./IngredientRepository";
 import { HttpException } from "../interfaces/HttpException";
@@ -26,6 +26,14 @@ class IngredientRepositoryMongoose implements IngredientRepository {
   async getAllIngredients(): Promise<Ingredient[]> {
     const getAllIngredients = await IngredientModel.find<Ingredient>();
     return getAllIngredients;
+  }
+
+  async findById(id: string): Promise<Ingredient[] | undefined> {
+    if (!Types.ObjectId.isValid(id)) {
+      return undefined;
+    }
+    const findId = await IngredientModel.findById(id);
+    return findId ? findId.toObject() : undefined;
   }
 
   async updateIngredient(

@@ -26,6 +26,11 @@ class IngredientRoutes {
       )
     );
 
+    this.router.get(
+      "/:id",
+      this.ingredientController.getById.bind(this.ingredientController)
+    );
+
     this.router.patch("", (req, res) => {
       return res.status(400).json({ error: "ID do insumo não fornecido." });
     });

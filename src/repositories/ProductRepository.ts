@@ -7,13 +7,13 @@ interface ProductRepository {
 
   getAllProducts(): Promise<Product[]>;
 
+  findById(id: string): Promise<IProductDocument | undefined>;
+
   updateProduct(id: string, productData: Product): Promise<Product | undefined>;
 
   deleteProduct(id: string): Promise<void>;
 
   findByName(name: string): Promise<IProductDocument | undefined>;
-
-  findById(id: string): Promise<IProductDocument | undefined>;
 }
 
 export { ProductRepository };

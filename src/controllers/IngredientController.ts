@@ -34,6 +34,16 @@ class IngredientController {
     }
   }
 
+  async getById(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    try {
+      const ingredient = await this.ingredientUseCase.findOne(id);
+      return response.status(200).json(ingredient);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async update(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
     const ingredientData = request.body;

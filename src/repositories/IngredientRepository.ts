@@ -5,6 +5,8 @@ interface IngredientRepository {
 
   getAllIngredients(): Promise<Ingredient[]>;
 
+  findById(id: string): Promise<Ingredient[] | undefined>;
+
   updateIngredient(
     id: string,
     ingredientData: Ingredient

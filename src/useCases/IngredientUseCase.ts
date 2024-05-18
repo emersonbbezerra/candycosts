@@ -55,6 +55,16 @@ class IngredientUseCase {
     return result;
   }
 
+  async findOne(id: string) {
+    const result = await this.ingredientRepository.findById(id);
+
+    if (!result) {
+      throw new HttpException(404, "Ingrediente não encontrado");
+    }
+
+    return result;
+  }
+
   async update(id: string, ingredientData: Ingredient) {
     if (!ingredientData.name) {
       throw new HttpException(400, "O nome do ingrediente é obrigatório.");
