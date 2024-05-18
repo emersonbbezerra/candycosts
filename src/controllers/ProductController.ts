@@ -34,6 +34,16 @@ class ProductController {
     }
   }
 
+  async getById(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    try {
+      const product = await this.productUseCase.findOne(id);
+      return response.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async update(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
     const productData = request.body;
@@ -48,6 +58,18 @@ class ProductController {
       return response
         .status(200)
         .json({ message: "Produto atualizado com sucesso." });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    try {
+      await this.productUseCase.delete(id);
+      return response
+        .status(200)
+        .json({ message: "Produto deletado com sucesso." });
     } catch (error) {
       next(error);
     }

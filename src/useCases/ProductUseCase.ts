@@ -50,6 +50,16 @@ class ProductUseCase {
     return result;
   }
 
+  async findOne(id: string) {
+    const result = await this.productRepository.findById(id);
+
+    if (!result) {
+      throw new HttpException(404, "Nenhum produto encontrado.");
+    }
+
+    return result;
+  }
+
   async update(id: string, productData: IProductDocument) {
     if (!productData) {
       throw new HttpException(400, "O nome do produto é obrigatório.");
@@ -77,6 +87,15 @@ class ProductUseCase {
     }
 
     const result = await this.productRepository.updateProduct(id, productData);
+    return result;
+  }
+
+  async delete(id: string) {
+    const existingProduct = await this.productRepository.findById(id);
+    if (!existingProduct) {
+      throw new HttpException(404, "Produto não localizado.");
+    }
+    const result = await this.productRepository.deleteProduct(id);
     return result;
   }
 }

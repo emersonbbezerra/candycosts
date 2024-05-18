@@ -18,9 +18,15 @@ class ProductRoutes {
       "/",
       this.productController.create.bind(this.productController)
     );
+
     this.router.get(
       "/",
       this.productController.getAllProducts.bind(this.productController)
+    );
+
+    this.router.get(
+      "/:id",
+      this.productController.getById.bind(this.productController)
     );
 
     this.router.patch("", (req, res) => {
@@ -29,6 +35,14 @@ class ProductRoutes {
     this.router.patch(
       "/:id",
       this.productController.update.bind(this.productController)
+    );
+
+    this.router.delete("", (req, res) => {
+      return res.status(400).json({ error: "ID do produto não fornecido." });
+    });
+    this.router.delete(
+      "/:id",
+      this.productController.delete.bind(this.productController)
     );
   }
 }

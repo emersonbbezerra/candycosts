@@ -3,6 +3,7 @@ import { IngredientModel } from "./IngredientRepositoryMongoose";
 import { IProductDocument, ProductModel } from "../interfaces/ProductInterface";
 import { Product } from "../entities/Product";
 import { Types } from "mongoose";
+import { HttpException } from "../interfaces/HttpException";
 
 class ProductRepositoryMongoose implements ProductRepository {
   private async calculateProductCost(
@@ -54,7 +55,11 @@ class ProductRepositoryMongoose implements ProductRepository {
   }
 
   async deleteProduct(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    try {
+      const productToDelete = await ProductModel.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error("Não foi possível deletar o produto");
+    }
   }
 
   async findByName(name: string): Promise<IProductDocument | undefined> {
