@@ -66,14 +66,13 @@ class IngredientUseCase {
   }
 
   async update(id: string, ingredientData: Ingredient) {
-    if (!ingredientData.name) {
-      throw new HttpException(400, "O nome do ingrediente é obrigatório.");
-    }
-    if (ingredientData.name.length < 3) {
-      throw new HttpException(
-        400,
-        "O nome do ingrediente não pode ter menos de 3 caracteres."
-      );
+    if (ingredientData.name) {
+      if (ingredientData.name.length < 3) {
+        throw new HttpException(
+          400,
+          "O nome do ingrediente não pode ter menos de 3 caracteres."
+        );
+      }
     }
     if (
       !ingredientData.price ||
