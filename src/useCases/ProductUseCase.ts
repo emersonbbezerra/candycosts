@@ -44,7 +44,7 @@ class ProductUseCase {
     const result = await this.productRepository.getAllProducts();
 
     if (!result) {
-      throw new HttpException(404, "Produto não encontrado.");
+      throw new HttpException(404, "Nenhum produto encontrado.");
     }
 
     return result;
@@ -54,7 +54,7 @@ class ProductUseCase {
     const result = await this.productRepository.findById(id);
 
     if (!result) {
-      throw new HttpException(404, "Produto não encontrado.");
+      throw new HttpException(404, "Nenhum produto encontrado.");
     }
 
     return result;
