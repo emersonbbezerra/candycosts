@@ -543,4 +543,4 @@ Thank you for considering contributing to CandyCost! To contribute, please follo
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/emersonbbezerra/candycosts?tab=MIT-1-ov-file#readme) file for details.
