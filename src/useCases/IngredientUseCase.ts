@@ -74,15 +74,13 @@ class IngredientUseCase {
         );
       }
     }
-    if (
-      !ingredientData.price ||
-      ingredientData.price <= 0 ||
-      ingredientData.price.toString() === ""
-    ) {
-      throw new HttpException(
-        400,
-        "O preço do ingrediente é obrigatório e não pode ser menor ou igual a 0."
-      );
+    if (ingredientData.price) {
+      if (ingredientData.price <= 0 || ingredientData.price.toString() === "") {
+        throw new HttpException(
+          400,
+          "O preço do ingrediente não pode ser menor ou igual a 0."
+        );
+      }
     }
 
     const verifyNameAndManufacturer =
