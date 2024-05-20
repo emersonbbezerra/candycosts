@@ -46,12 +46,37 @@ class ProductRepositoryMongoose implements ProductRepository {
     if (!Types.ObjectId.isValid(id)) {
       throw new Error("ID do produto inválido.");
     }
-    const productUpdate = await ProductModel.findByIdAndUpdate(
-      id,
-      productData,
-      { new: true }
-    );
-    return productUpdate ? productUpdate.toObject() : undefined;
+    if (productData.ingredients) {
+      const productCost = await this.calculateProductCost(
+        productData.ingredients
+      );
+      const updateDataWithCost = { ...productData, cost: productCost };
+      const productUpdate = await ProductModel.findByIdAndUpdate(
+        id,
+        updateDataWithCost,
+        { new: true }
+      );
+      return productUpdate ? productUpdate.toObject() : undefined;
+    } else if (!productData.ingredients) {
+      const productWithoutChangingCost = await IngredientModel.findById(id);
+      const updateDataWithoutChangingCost = {
+        ...productData,
+        igredients: productWithoutChangingCost,
+      };
+      const productUpdate = await ProductModel.findByIdAndUpdate(
+        id,
+        updateDataWithoutChangingCost,
+        { new: true }
+      );
+      return productUpdate ? productUpdate.toObject() : undefined;
+    } else {
+      const productUpdate = await ProductModel.findByIdAndUpdate(
+        id,
+        productData,
+        { new: true }
+      );
+      return productUpdate ? productUpdate.toObject() : undefined;
+    }
   }
 
   async deleteProduct(id: string): Promise<void> {
