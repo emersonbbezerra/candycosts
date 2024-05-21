@@ -2,19 +2,7 @@ import mongoose, { Types } from "mongoose";
 import { Ingredient } from "../entities/Ingredient";
 import { IngredientRepository } from "./IngredientRepository";
 import { HttpException } from "../interfaces/HttpException";
-
-const ingredientSchema = new mongoose.Schema({
-  name: String,
-  manufacturer: String,
-  price: Number,
-  unit: String,
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-export const IngredientModel = mongoose.model("ingredients", ingredientSchema);
+import { IngredientModel } from "../interfaces/IngredientInterface";
 
 class IngredientRepositoryMongoose implements IngredientRepository {
   async add(ingredient: Ingredient): Promise<Ingredient> {
