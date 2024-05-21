@@ -117,6 +117,43 @@ class ProductRepositoryMongoose implements ProductRepository {
     }).exec();
     return products;
   }
+
+  async updateProductsWithIngredientChange(
+    ingredientId: string
+  ): Promise<void> {
+    // Encontre todos os produtos que contenham o ingrediente especificado
+    const productsToUpdate = await ProductModel.find({
+      "ingredients.ingredientId": ingredientId,
+    });
+
+    // Atualize os produtos individualmente
+    for (const product of productsToUpdate) {
+      const updatedProduct = await this.calculateAndUpdateProductCost(product);
+      console.log(`Produto atualizado: ${updatedProduct.name}`);
+    }
+  }
+
+  public async calculateAndUpdateProductCost(
+    product: IProductDocument
+  ): Promise<IProductDocument> {
+    // Calcule o novo custo do produto com base nas informações atualizadas do ingrediente
+    let totalCost = 0;
+    for (const ingredient of product.ingredients) {
+      // Consulte o ingrediente no banco de dados para obter o preço atualizado
+      const ingredientData = await IngredientModel.findById(
+        ingredient.ingredientId
+      );
+      if (ingredientData && ingredientData.price) {
+        totalCost += ingredientData.price * ingredient.amount;
+      }
+    }
+
+    // Atualize o custo do produto
+    product.cost = totalCost;
+
+    // Salve e retorne o produto atualizado
+    return await product.save();
+  }
 }
 
 export { ProductRepositoryMongoose };

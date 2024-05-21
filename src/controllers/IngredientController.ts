@@ -58,6 +58,9 @@ class IngredientController {
           .status(404)
           .json({ message: "Ingrediente não localizado." });
       }
+
+      await this.ingredientUseCase.updateRelatedProducts(id);
+
       return response
         .status(200)
         .json({ message: "Ingrediente atualizado com sucesso." });

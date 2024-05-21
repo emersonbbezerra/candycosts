@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import { Types } from "mongoose";
 import { Ingredient } from "../entities/Ingredient";
 import { IngredientRepository } from "./IngredientRepository";
 import { HttpException } from "../interfaces/HttpException";

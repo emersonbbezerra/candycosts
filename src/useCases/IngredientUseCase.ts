@@ -1,9 +1,14 @@
 import { Ingredient } from "../entities/Ingredient";
 import { HttpException } from "../interfaces/HttpException";
 import { IngredientRepository } from "../repositories/IngredientRepository";
+import { ProductRepository } from "../repositories/ProductRepository";
+import { ProductModel } from "../interfaces/ProductInterface";
 
 class IngredientUseCase {
-  constructor(private ingredientRepository: IngredientRepository) {}
+  constructor(
+    private ingredientRepository: IngredientRepository,
+    private productRepository: ProductRepository
+  ) {}
 
   async create(ingredientData: Ingredient) {
     if (!ingredientData.name) {
@@ -65,6 +70,10 @@ class IngredientUseCase {
     return result;
   }
 
+  async delete(id: string) {
+    await this.ingredientRepository.deleteIngredient(id);
+  }
+
   async update(id: string, ingredientData: Ingredient) {
     if (ingredientData.name) {
       if (ingredientData.name.length < 3) {
@@ -100,11 +109,23 @@ class IngredientUseCase {
       id,
       ingredientData
     );
+
+    await this.updateRelatedProducts(id);
     return result;
   }
 
-  async delete(id: string) {
-    await this.ingredientRepository.deleteIngredient(id);
+  async updateRelatedProducts(ingredientId: string) {
+    const productsToUpdate = await this.productRepository.findByIngredientId(
+      ingredientId
+    );
+
+    for (const product of productsToUpdate) {
+      const productDocument = new ProductModel(product);
+      const updatedProduct =
+        await this.productRepository.calculateAndUpdateProductCost(
+          productDocument
+        );
+    }
   }
 }
 

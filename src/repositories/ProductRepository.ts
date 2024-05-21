@@ -15,6 +15,12 @@ interface ProductRepository {
   findByName(name: string): Promise<IProductDocument | undefined>;
 
   findByIngredientId(ingredientId: string): Promise<Product[]>;
+
+  updateProductsWithIngredientChange(ingredientId: string): Promise<void>;
+
+  calculateAndUpdateProductCost(
+    product: IProductDocument
+  ): Promise<IProductDocument>;
 }
 
 export { ProductRepository };

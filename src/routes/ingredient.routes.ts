@@ -2,6 +2,7 @@ import { Router } from "express";
 import { IngredientRepositoryMongoose } from "../repositories/IngredientRepositoryMongoose";
 import { IngredientController } from "../controllers/IngredientController";
 import { IngredientUseCase } from "../useCases/IngredientUseCase";
+import { ProductRepositoryMongoose } from "../repositories/ProductRepositoryMongoose";
 
 class IngredientRoutes {
   public router: Router;
@@ -9,7 +10,11 @@ class IngredientRoutes {
   constructor() {
     this.router = Router();
     const ingredientRepository = new IngredientRepositoryMongoose();
-    const ingredientUseCase = new IngredientUseCase(ingredientRepository);
+    const productRepository = new ProductRepositoryMongoose();
+    const ingredientUseCase = new IngredientUseCase(
+      ingredientRepository,
+      productRepository
+    );
     this.ingredientController = new IngredientController(ingredientUseCase);
     this.initRoutes();
   }
