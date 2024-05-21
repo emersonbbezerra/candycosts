@@ -1,10 +1,5 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
-
-export interface IIngredient {
-  ingredientId: string;
-  name: string;
-  amount: number;
-}
+import { IIngredient } from "./IngredientInterface";
 
 export interface IProduct {
   _id?: ObjectId;

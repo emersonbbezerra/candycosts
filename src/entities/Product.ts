@@ -1,4 +1,4 @@
-import { IIngredient } from "../interfaces/ProductInterface";
+import { IIngredient } from "../interfaces/IngredientInterface";
 
 class Product {
   constructor(
