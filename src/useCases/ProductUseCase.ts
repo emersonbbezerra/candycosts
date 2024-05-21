@@ -79,7 +79,7 @@ class ProductUseCase {
     const productByName = await this.productRepository.findByName(
       productData.name
     );
-    if (productByName && productByName._id.toString() !== id) {
+    if (productByName && productByName._id?.toString() !== id) {
       throw new HttpException(
         400,
         `Já existe um produto cadastrado com esse nome. O id dele é ${productByName._id}`
@@ -96,6 +96,25 @@ class ProductUseCase {
       throw new HttpException(404, "Produto não localizado.");
     }
     const result = await this.productRepository.deleteProduct(id);
+    return result;
+  }
+
+  async findByIngredientId(ingredientId: string) {
+    if (!ingredientId) {
+      throw new HttpException(400, "O ID do ingrediente é obrigatório.");
+    }
+
+    const result = await this.productRepository.findByIngredientId(
+      ingredientId
+    );
+
+    if (!result || result.length === 0) {
+      throw new HttpException(
+        404,
+        "Nenhum produto encontrado com esse ingrediente."
+      );
+    }
+
     return result;
   }
 }

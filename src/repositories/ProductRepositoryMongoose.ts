@@ -1,5 +1,5 @@
 import { ProductRepository } from "./ProductRepository";
-import { IngredientModel } from "./IngredientRepositoryMongoose";
+import { IngredientModel } from "../interfaces/IngredientInterface";
 import { IProductDocument, ProductModel } from "../interfaces/ProductInterface";
 import { Product } from "../entities/Product";
 import { Types } from "mongoose";
@@ -29,7 +29,12 @@ class ProductRepositoryMongoose implements ProductRepository {
   }
 
   async add(product: Product): Promise<Product | undefined> {
-    const cost = await this.calculateProductCost(product.ingredients);
+    const mappedIngredients = product.ingredients.map((ingredient) => ({
+      ingredientId: ingredient.ingredientId.toString(), // Convertendo ObjectId para string, se necessário
+      name: ingredient.name,
+      amount: ingredient.amount,
+    }));
+    const cost = await this.calculateProductCost(mappedIngredients);
     const newProduct = await ProductModel.create({ ...product, cost });
     return newProduct;
   }
@@ -47,9 +52,12 @@ class ProductRepositoryMongoose implements ProductRepository {
       throw new Error("ID do produto inválido.");
     }
     if (productData.ingredients) {
-      const productCost = await this.calculateProductCost(
-        productData.ingredients
-      );
+      const mappedIngredients = productData.ingredients.map((ingredient) => ({
+        ingredientId: ingredient.ingredientId.toString(), // Convertendo ObjectId para string, se necessário
+        name: ingredient.name,
+        amount: ingredient.amount,
+      }));
+      const productCost = await this.calculateProductCost(mappedIngredients);
       const updateDataWithCost = { ...productData, cost: productCost };
       const productUpdate = await ProductModel.findByIdAndUpdate(
         id,
@@ -98,6 +106,16 @@ class ProductRepositoryMongoose implements ProductRepository {
     }
     const findId = await ProductModel.findById(id);
     return findId ? findId.toObject() : undefined;
+  }
+
+  async findByIngredientId(ingredientId: string): Promise<Product[]> {
+    if (!Types.ObjectId.isValid(ingredientId)) {
+      throw new Error("ID do ingrediente inválido.");
+    }
+    const products = await ProductModel.find({
+      "ingredients.ingredientId": ingredientId,
+    }).exec();
+    return products;
   }
 }
 
