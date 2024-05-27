@@ -27,7 +27,7 @@ See below for instructions on how to run this project locally.
 
 <h3>Prerequisites</h3>
 
-Here you list all prerequisites necessary for running your project:
+Prerequisites required to execute the project:
 
 - [NodeJS](https://nodejs.org/en)
 - [TypeScript](https://www.typescriptlang.org/)
